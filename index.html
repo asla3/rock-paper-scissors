@@ -5,8 +5,27 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Rock, Paper or Scissors</title>
+		<link rel="stylesheet" href="style.css" />
+		<script type="text/javascript" src="./script/script.js" defer></script>
 	</head>
 	<body>
-		<script type="text/javascript" src="./script/script.js"></script>
+		<h1>Rock, papers, scissors</h1>
+		<div id="buttons-wrapper">
+			<button id="game-button">Start game</button>
+			<button id="reset-button" style="display: none">Reset game</button>
+		</div>
+		<div id="info-wrapper" style="display: none">
+			<h2>Round <span class="round"></span></h2>
+			<p id="result" style="display: none"></p>
+			<p class="scores">
+				You: <span id="player-score"></span> computer:
+				<span id="computer-score"></span>
+			</p>
+		</div>
+		<div id="options-wrapper" style="display: none">
+			<button class="option" id="rock">Rock</button>
+			<button class="option" id="paper">Paper</button>
+			<button class="option" id="scissors">Scissors</button>
+		</div>
 	</body>
 </html>

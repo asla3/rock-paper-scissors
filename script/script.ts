@@ -1,104 +1,99 @@
-// possible options for the game
-type GameOptions = 'rock' | 'paper' | 'scissors'
-// storing player and computer's score
-let playerScore = 0
-let computerScore = 0
-// array that contains all the possible choices in the game
-const options: GameOptions[] = ['rock', 'paper', 'scissors']
-// this function takes the player's choice and the computer's choice. It returns the winner
-function determineWinner(
-	playerSelection: GameOptions,
-	computerSelection: GameOptions
-) {
-	// checks if user won
-	if (
+// options for the game
+type GameOptions = 'rock' | 'paper' | 'scissors';
+
+let playerScore = 0;
+let computerScore = 0;
+let round = 0;
+let gameOptionsDisabled = false;
+const availableGameOptions: GameOptions[] = ['rock', 'paper', 'scissors'];
+
+//buttons
+const buttonsWrapper = document.getElementById('buttons-wrapper');
+const startRoundButton = document.getElementById('game-button');
+const resetButton = document.getElementById('reset-button');
+// results
+const scoresWrapper = document.getElementById('info-wrapper');
+const lastResults = document.getElementById('result');
+const playerScoreDisplayer = document.getElementById('player-score');
+const computerScoreDisplayer = document.getElementById('computer-score');
+const roundDisplayer = document.getElementsByClassName('round')[0];
+// clickable options
+const optionsWrapper = document.getElementById('options-wrapper');
+const clickableGameOptions = document.getElementsByClassName('option');
+
+// disables the clickable options
+const toggleDisabled = () => {
+	for (let i = 0; i < clickableGameOptions.length; i++) {
+		const gameOption = clickableGameOptions[i];
+		gameOption.toggleAttribute('disabled');
+	}
+	gameOptionsDisabled = !gameOptionsDisabled;
+};
+
+// this function takes the player's choice and determines who won the round
+const determineRound = (playerSelection: GameOptions) => {
+	// simulates a random selection for the computer by calling Math.random()
+	const computerSelection = availableGameOptions[Math.floor(Math.random() * 3)];
+	lastResults.style.display = 'block';
+	buttonsWrapper.classList.remove('hidden');
+	resetButton.style.display = 'block';
+	startRoundButton.innerText = 'Next round';
+	if (playerSelection == computerSelection) {
+		lastResults.innerText = 'Tie!';
+	}
+	// checks if the player won
+	else if (
 		(playerSelection == 'rock' && computerSelection == 'scissors') ||
 		(playerSelection == 'paper' && computerSelection == 'rock') ||
 		(playerSelection == 'scissors' && computerSelection == 'paper')
 	) {
-		return 'player'
-	}
-	// checks if there's a tie
-	else if (playerSelection == computerSelection) {
-		return 'tie'
-	}
-	// check if user lost
-	else {
-		return 'computer'
-	}
-}
-// this function asks and validates the user choice. Returns the user choice if it is valid, if not, it asks the user to try again
-function askUserInput(): GameOptions {
-	// calls window.prompt to get the player's option
-	let userInput = window.prompt('Pick an option: ')
-	// check if not undefined
-	if (userInput) {
-		// lowercase it so the user can write it with caps or without any caps at all
-		userInput = userInput.toLowerCase()
-		// validates that it is a valid answer
-		if (
-			userInput === 'rock' ||
-			userInput === 'scissors' ||
-			userInput === 'paper'
-		) {
-			return userInput
-		}
-	}
-	// if its undefined or not a valid answer, it calls the function to try again.
-	console.log(
-		'Invalid input. Try again. You can just choose rock, paper or scissors'
-	)
-	return askUserInput()
-}
-// this function starts the game
-function startGame() {
-	// starts a loop so the user can play five rounds
-	for (let i = 0; i < 5; i++) {
-		// prints the current round to the console
-		console.log(`Round ${i + 1}`)
-		// prints how many rounds there are left
-		if (i == 3) {
-			console.log(`There is 1 round left`)
-		} else {
-			console.log(`There are ${4 - i} rounds left`)
-		}
-		// call askUserInput so we can ask the user to choose an option
-		let userSelection = askUserInput()
-		// simulates a random choice by accessing the options array in a random position
-		const computerSelection = options[Math.floor(Math.random() * 3)]
-		// calls determineWinner to get the winner of the round
-		const winner = determineWinner(userSelection, computerSelection)
-		// if player wins, print to console and add 1 to player's score
-		if (winner == 'player') {
-			console.log('Congratulations! You won.')
-			playerScore++
-		}
-		// if it's a tie, just print to the console
-		else if (winner == 'tie') {
-			console.log('Tie!')
-		}
-		// if computer won, add one to computer's score and print to the console
-		else {
-			console.log('You lost! :(')
-			computerScore++
-		}
-		// prints all the choices
-		console.log(
-			`Your choice: ${userSelection}. Computer's choice: ${computerSelection}`
-		)
-		// prints the current score
-		console.log(`Score: ${playerScore} - ${computerScore}.`)
-	}
-	// prints the result of the game
-	console.log('The game has ended!')
-	console.log(`Final score ${playerScore} - ${computerScore}`)
-	if (playerScore < computerScore) {
-		console.log('You lost the game! Try again.')
-	} else if (playerScore > computerScore) {
-		console.log('You won!')
+		playerScore++;
+		playerScoreDisplayer.textContent = `${playerScore}`;
+		lastResults.innerText = 'You won!';
 	} else {
-		console.log('Tie!')
+		computerScore++;
+		computerScoreDisplayer.textContent = `${computerScore}`;
+		lastResults.innerText = 'Computer won!';
 	}
+	// disable game buttons so the player can't change their choice
+	toggleDisabled();
+};
+
+// resets the game and starts another round
+const resetGame = () => {
+	round = 0;
+	playerScore = 0;
+	computerScore = 0;
+	playRound();
+};
+
+const playRound = () => {
+	round++;
+	buttonsWrapper.classList.add('hidden');
+	scoresWrapper.style.display = 'block';
+	roundDisplayer.textContent = `${round}`;
+	optionsWrapper.style.display = 'block';
+	lastResults.style.display = 'none';
+	playerScoreDisplayer.textContent = `${playerScore}`;
+	computerScoreDisplayer.textContent = `${computerScore}`;
+	// if the buttons are disable enable them
+	if (gameOptionsDisabled) {
+		toggleDisabled();
+	}
+};
+
+// listener for the game options
+for (let i = 0; i < clickableGameOptions.length; i++) {
+	clickableGameOptions[i].addEventListener('click', (e) => {
+		const elementId = (<HTMLElement>e.target).id;
+		if (
+			elementId == 'rock' ||
+			elementId == 'scissors' ||
+			elementId == 'paper'
+		) {
+			determineRound(elementId);
+		}
+	});
 }
-// calling startGame so we can start the game
-startGame()
+startRoundButton.addEventListener('click', playRound);
+resetButton.addEventListener('click', resetGame);
