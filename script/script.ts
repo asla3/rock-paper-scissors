@@ -13,10 +13,12 @@ const startRoundButton = document.getElementById('game-button');
 const resetButton = document.getElementById('reset-button');
 // results
 const scoresWrapper = document.getElementById('info-wrapper');
-const lastResults = document.getElementById('result');
+const roundLastResults = document.getElementById('round-result');
 const playerScoreDisplayer = document.getElementById('player-score');
 const computerScoreDisplayer = document.getElementById('computer-score');
 const roundDisplayer = document.getElementsByClassName('round')[0];
+const announcerWrapper = document.getElementById('winner-announcer');
+const announcer = document.getElementById('announcer');
 // clickable options
 const optionsWrapper = document.getElementById('options-wrapper');
 const clickableGameOptions = document.getElementsByClassName('option');
@@ -34,12 +36,12 @@ const toggleDisabled = () => {
 const determineRound = (playerSelection: GameOptions) => {
 	// simulates a random selection for the computer by calling Math.random()
 	const computerSelection = availableGameOptions[Math.floor(Math.random() * 3)];
-	lastResults.style.display = 'block';
+	roundLastResults.style.display = 'block';
 	buttonsWrapper.classList.remove('hidden');
-	resetButton.style.display = 'block';
 	startRoundButton.innerText = 'Next round';
+	startRoundButton.removeAttribute('disabled');
 	if (playerSelection == computerSelection) {
-		lastResults.innerText = 'Tie!';
+		roundLastResults.innerText = 'Tie!';
 	}
 	// checks if the player won
 	else if (
@@ -49,14 +51,23 @@ const determineRound = (playerSelection: GameOptions) => {
 	) {
 		playerScore++;
 		playerScoreDisplayer.textContent = `${playerScore}`;
-		lastResults.innerText = 'You won!';
+		roundLastResults.innerText = 'You won!';
 	} else {
 		computerScore++;
 		computerScoreDisplayer.textContent = `${computerScore}`;
-		lastResults.innerText = 'Computer won!';
+		roundLastResults.innerText = 'Computer won!';
 	}
 	// disable game buttons so the player can't change their choice
 	toggleDisabled();
+	if (playerScore == 5 || computerScore == 5) {
+		startRoundButton.toggleAttribute('disabled');
+		announcerWrapper.style.display = 'block';
+		if (playerScore == 5) {
+			announcer.innerText = 'won';
+		} else {
+			announcer.innerText = 'lost';
+		}
+	}
 };
 
 // resets the game and starts another round
@@ -64,6 +75,7 @@ const resetGame = () => {
 	round = 0;
 	playerScore = 0;
 	computerScore = 0;
+	announcerWrapper.style.display = 'none';
 	playRound();
 };
 
@@ -73,7 +85,7 @@ const playRound = () => {
 	scoresWrapper.style.display = 'block';
 	roundDisplayer.textContent = `${round}`;
 	optionsWrapper.style.display = 'block';
-	lastResults.style.display = 'none';
+	roundLastResults.style.display = 'none';
 	playerScoreDisplayer.textContent = `${playerScore}`;
 	computerScoreDisplayer.textContent = `${computerScore}`;
 	// if the buttons are disable enable them

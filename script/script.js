@@ -9,10 +9,12 @@ var startRoundButton = document.getElementById('game-button');
 var resetButton = document.getElementById('reset-button');
 // results
 var scoresWrapper = document.getElementById('info-wrapper');
-var lastResults = document.getElementById('result');
+var roundLastResults = document.getElementById('round-result');
 var playerScoreDisplayer = document.getElementById('player-score');
 var computerScoreDisplayer = document.getElementById('computer-score');
 var roundDisplayer = document.getElementsByClassName('round')[0];
+var announcerWrapper = document.getElementById('winner-announcer');
+var announcer = document.getElementById('announcer');
 // clickable options
 var optionsWrapper = document.getElementById('options-wrapper');
 var clickableGameOptions = document.getElementsByClassName('option');
@@ -28,12 +30,12 @@ var toggleDisabled = function () {
 var determineRound = function (playerSelection) {
     // simulates a random selection for the computer by calling Math.random()
     var computerSelection = availableGameOptions[Math.floor(Math.random() * 3)];
-    lastResults.style.display = 'block';
+    roundLastResults.style.display = 'block';
     buttonsWrapper.classList.remove('hidden');
-    resetButton.style.display = 'block';
     startRoundButton.innerText = 'Next round';
+    startRoundButton.removeAttribute('disabled');
     if (playerSelection == computerSelection) {
-        lastResults.innerText = 'Tie!';
+        roundLastResults.innerText = 'Tie!';
     }
     // checks if the player won
     else if ((playerSelection == 'rock' && computerSelection == 'scissors') ||
@@ -41,21 +43,32 @@ var determineRound = function (playerSelection) {
         (playerSelection == 'scissors' && computerSelection == 'paper')) {
         playerScore++;
         playerScoreDisplayer.textContent = "" + playerScore;
-        lastResults.innerText = 'You won!';
+        roundLastResults.innerText = 'You won!';
     }
     else {
         computerScore++;
         computerScoreDisplayer.textContent = "" + computerScore;
-        lastResults.innerText = 'Computer won!';
+        roundLastResults.innerText = 'Computer won!';
     }
     // disable game buttons so the player can't change their choice
     toggleDisabled();
+    if (playerScore == 5 || computerScore == 5) {
+        startRoundButton.toggleAttribute('disabled');
+        announcerWrapper.style.display = 'block';
+        if (playerScore == 5) {
+            announcer.innerText = 'won';
+        }
+        else {
+            announcer.innerText = 'lost';
+        }
+    }
 };
 // resets the game and starts another round
 var resetGame = function () {
     round = 0;
     playerScore = 0;
     computerScore = 0;
+    announcerWrapper.style.display = 'none';
     playRound();
 };
 var playRound = function () {
@@ -64,7 +77,7 @@ var playRound = function () {
     scoresWrapper.style.display = 'block';
     roundDisplayer.textContent = "" + round;
     optionsWrapper.style.display = 'block';
-    lastResults.style.display = 'none';
+    roundLastResults.style.display = 'none';
     playerScoreDisplayer.textContent = "" + playerScore;
     computerScoreDisplayer.textContent = "" + computerScore;
     // if the buttons are disable enable them
