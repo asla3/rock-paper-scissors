@@ -38,7 +38,6 @@ const determineRound = (playerSelection: GameOptions) => {
 	const computerSelection = availableGameOptions[Math.floor(Math.random() * 3)];
 	roundLastResults.style.display = 'block';
 	buttonsWrapper.classList.remove('hidden');
-	startRoundButton.innerText = 'Next round';
 	startRoundButton.removeAttribute('disabled');
 	if (playerSelection == computerSelection) {
 		roundLastResults.innerText = 'Tie!';
@@ -75,19 +74,22 @@ const resetGame = () => {
 	round = 0;
 	playerScore = 0;
 	computerScore = 0;
+	playerScoreDisplayer.textContent = `${playerScore}`;
+	computerScoreDisplayer.textContent = `${computerScore}`;
 	announcerWrapper.style.display = 'none';
 	playRound();
 };
 
 const playRound = () => {
+	if (round == 0) {
+		scoresWrapper.style.display = 'block';
+		optionsWrapper.style.display = 'block';
+		startRoundButton.innerText = 'Next round';
+	}
 	round++;
-	buttonsWrapper.classList.add('hidden');
-	scoresWrapper.style.display = 'block';
 	roundDisplayer.textContent = `${round}`;
-	optionsWrapper.style.display = 'block';
+	buttonsWrapper.classList.add('hidden');
 	roundLastResults.style.display = 'none';
-	playerScoreDisplayer.textContent = `${playerScore}`;
-	computerScoreDisplayer.textContent = `${computerScore}`;
 	// if the buttons are disable enable them
 	if (gameOptionsDisabled) {
 		toggleDisabled();
