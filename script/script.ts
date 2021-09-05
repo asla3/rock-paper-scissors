@@ -7,12 +7,14 @@ let round = 0;
 let gameOptionsDisabled = false;
 const availableGameOptions: GameOptions[] = ['rock', 'paper', 'scissors'];
 
+const mainWrapper = document.getElementsByClassName('game-main-wrapper')[0];
 const gameExplanationContainer =
 	document.getElementsByClassName('game-explanation')[0];
 //buttons
 const buttonsWrapper = document.getElementById('main-buttons-wrapper');
 const startRoundButton = document.getElementById('game-button');
 const resetButton = document.getElementById('reset-button');
+const endButton = document.getElementById('end-button');
 // results
 const scoresWrapper = document.getElementById('info-wrapper');
 const roundLastResults = document.getElementById('round-result');
@@ -60,12 +62,11 @@ const showLastPlayed = (
 };
 
 // this function takes the player's choice and determines who won the round
-const determineRound = (playerSelection: GameOptions) => {
+const determineRoundResult = (playerSelection: GameOptions) => {
 	// simulates a random selection for the computer by calling Math.random()
 	const computerSelection = availableGameOptions[Math.floor(Math.random() * 3)];
 	roundLastResults.style.display = 'block';
 	buttonsWrapper.classList.remove('hidden');
-	startRoundButton.removeAttribute('disabled');
 	showLastPlayed(playerSelection, playerSelectionDisplayer);
 	showLastPlayed(computerSelection, computerSelectionDisplayer);
 	if (playerSelection == computerSelection) {
@@ -88,13 +89,18 @@ const determineRound = (playerSelection: GameOptions) => {
 	// disable game buttons so the player can't change their choice
 	toggleHideGameOptions(true);
 	if (playerScore == 5 || computerScore == 5) {
-		startRoundButton.toggleAttribute('disabled');
-		announcerWrapper.style.display = 'block';
-		if (playerScore == 5) {
-			announcer.innerText = 'won';
-		} else {
-			announcer.innerText = 'lost';
-		}
+		startRoundButton.style.display = 'none';
+		endButton.style.display = 'inline-block';
+	}
+};
+
+const endGame = () => {
+	(<HTMLElement>mainWrapper).style.display = 'none';
+	announcerWrapper.style.display = 'block';
+	if (playerScore == 5) {
+		announcer.innerText = 'won';
+	} else {
+		announcer.innerText = 'lost';
 	}
 };
 
@@ -108,6 +114,9 @@ const resetGame = () => {
 	announcerWrapper.style.display = 'none';
 	playerSelectionDisplayer.removeAttribute('class');
 	computerSelectionDisplayer.removeAttribute('class');
+	(<HTMLElement>mainWrapper).style.display = 'block';
+	endButton.style.display = 'none';
+	startRoundButton.style.display = 'inline-block';
 	playRound();
 };
 
@@ -131,15 +140,17 @@ const playRound = () => {
 // listener for the game options
 for (let i = 0; i < clickableGameOptions.length; i++) {
 	clickableGameOptions[i].addEventListener('click', (e) => {
-		const elementId = (<HTMLElement>e.target).id;
+		const clickedOption = (<HTMLElement>e.target).dataset.option;
+		// console.log(clickedOption);
 		if (
-			elementId == 'rock' ||
-			elementId == 'scissors' ||
-			elementId == 'paper'
+			clickedOption == 'rock' ||
+			clickedOption == 'scissors' ||
+			clickedOption == 'paper'
 		) {
-			determineRound(elementId);
+			determineRoundResult(clickedOption);
 		}
 	});
 }
 startRoundButton.addEventListener('click', playRound);
 resetButton.addEventListener('click', resetGame);
+endButton.addEventListener('click', endGame);
