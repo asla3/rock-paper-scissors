@@ -18,9 +18,6 @@ var computerScoreDisplayer = document.getElementById('computer-score');
 var roundDisplayer = document.getElementsByClassName('round')[0];
 var announcerWrapper = document.getElementById('winner-announcer');
 var announcer = document.getElementById('announcer');
-// clickable options
-var optionsWrapper = document.getElementById('options-wrapper');
-var clickableGameOptions = document.getElementsByClassName('option');
 // options chosen
 var playerSelectionDisplayer = document
     .getElementById('player-last-pick')
@@ -28,6 +25,9 @@ var playerSelectionDisplayer = document
 var computerSelectionDisplayer = document
     .getElementById('computer-last-pick')
     .getElementsByTagName('span')[0];
+// clickable options
+var optionsWrapper = document.getElementById('options-wrapper');
+var clickableGameOptions = document.getElementsByClassName('option');
 var rockIconClass = 'far fa-hand-rock';
 var paperIconClass = 'far fa-hand-paper';
 var scissorsIconClass = 'far fa-hand-scissors';
@@ -84,10 +84,10 @@ var endGame = function () {
     mainWrapper.style.display = 'none';
     announcerWrapper.style.display = 'block';
     if (playerScore == 5) {
-        announcer.innerText = 'won';
+        announcer.innerText = 'won!';
     }
     else {
-        announcer.innerText = 'lost';
+        announcer.innerText = 'lost!';
     }
 };
 // resets the game and starts another round

@@ -23,9 +23,6 @@ const computerScoreDisplayer = document.getElementById('computer-score');
 const roundDisplayer = document.getElementsByClassName('round')[0];
 const announcerWrapper = document.getElementById('winner-announcer');
 const announcer = document.getElementById('announcer');
-// clickable options
-const optionsWrapper = document.getElementById('options-wrapper');
-const clickableGameOptions = document.getElementsByClassName('option');
 // options chosen
 const playerSelectionDisplayer = document
 	.getElementById('player-last-pick')
@@ -33,6 +30,9 @@ const playerSelectionDisplayer = document
 const computerSelectionDisplayer = document
 	.getElementById('computer-last-pick')
 	.getElementsByTagName('span')[0];
+// clickable options
+const optionsWrapper = document.getElementById('options-wrapper');
+const clickableGameOptions = document.getElementsByClassName('option');
 
 const rockIconClass = 'far fa-hand-rock';
 const paperIconClass = 'far fa-hand-paper';
@@ -98,9 +98,9 @@ const endGame = () => {
 	(<HTMLElement>mainWrapper).style.display = 'none';
 	announcerWrapper.style.display = 'block';
 	if (playerScore == 5) {
-		announcer.innerText = 'won';
+		announcer.innerText = 'won!';
 	} else {
-		announcer.innerText = 'lost';
+		announcer.innerText = 'lost!';
 	}
 };
 
