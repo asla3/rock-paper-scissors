@@ -1,0 +1,119 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	font-family: 'Esteban', serif;
+}
+
+body {
+	border-top: 15px solid #f93822;
+	border-bottom: 15px solid #f93822;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0px 9px;
+	text-align: center;
+}
+
+h1 {
+	padding-bottom: 40px;
+	font-size: 25.65px;
+	line-height: 32.68px;
+	letter-spacing: 0.08em;
+}
+
+h2 {
+	text-align: center;
+}
+
+p {
+	line-height: 30px;
+}
+
+button {
+	cursor: pointer;
+}
+
+button:disabled {
+	cursor: not-allowed;
+	opacity: 0.7;
+}
+
+.hidden {
+	display: none;
+}
+
+.game-explanation {
+	text-align: center;
+}
+
+#introduction {
+	padding-bottom: 20px;
+}
+
+#main-buttons-wrapper {
+	text-align: center;
+}
+.button {
+	background: #fdd20e;
+	border: none;
+	padding: 15px 40px;
+}
+
+.score {
+	padding-bottom: 10px;
+}
+
+.scores-container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	text-align: center;
+}
+
+.scores-container span {
+	display: block;
+	padding-bottom: 18px;
+}
+
+#info-wrapper {
+	padding-bottom: 30px;
+}
+
+.last-pick {
+	height: 168px;
+	width: 126px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	box-shadow: 0px 6px 30px rgba(0, 0, 0, 0.08);
+}
+
+.last-pick {
+	font-size: 60px;
+}
+
+#options-wrapper {
+	text-align: center;
+	padding-bottom: 20px;
+}
+
+#options-wrapper p {
+	margin-bottom: 20px;
+}
+
+.buttons-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+.buttons-wrapper button {
+	height: 70px;
+	width: 70px;
+	border-radius: 50%;
+	background: #d25749;
+	color: white;
+	border: none;
+}

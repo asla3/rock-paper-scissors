@@ -5,8 +5,74 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Rock, Paper or Scissors</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Esteban&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+			integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<link rel="stylesheet" href="style.css" />
+		<script type="text/javascript" src="./script/script.js" defer></script>
 	</head>
 	<body>
-		<script type="text/javascript" src="./script/script.js"></script>
+		<div class="game-main-wrapper">
+			<div class="game-explanation">
+				<h1>Rock, papers, scissors</h1>
+				<p id="introduction">
+					Computer’s have been getting smarter lately, that’s annoying isn’t it?
+					They think they can just appear out of nowhere and steal jobs from
+					people... Play rock, papers, scissors against a computer and show it
+					who’s the boss
+				</p>
+			</div>
+
+			<div id="info-wrapper" style="display: none">
+				<h1>Round<br /><span class="round"></span></h1>
+				<h1 id="round-result" style="display: none"></h1>
+				<div class="scores-container">
+					<div class="player">
+						<p class="score">Your<br />score</p>
+						<span id="player-score">0</span>
+						<div class="last-pick" id="player-last-pick"><span></span></div>
+					</div>
+					<div class="computer">
+						<p class="score">Computer's<br />score</p>
+						<span id="computer-score">0</span>
+						<div class="last-pick" id="computer-last-pick"><span></span></div>
+					</div>
+				</div>
+			</div>
+			<div id="main-buttons-wrapper">
+				<button class="button" id="game-button">Start game</button>
+				<button class="button" id="end-button" style="display: none">
+					End game
+				</button>
+			</div>
+			<div id="options-wrapper" style="display: none">
+				<p>Choose one:</p>
+				<div class="buttons-wrapper">
+					<button class="option" data-option="rock" id="rock">
+						<span data-option="rock" class="far fa-hand-rock"></span>
+					</button>
+					<button class="option" data-option="paper" id="paper">
+						<span data-option="paper" class="far fa-hand-paper"></span>
+					</button>
+					<button class="option" data-option="scissors" id="scissors">
+						<span data-option="scissors" class="far fa-hand-scissors"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+		<div id="winner-announcer" style="display: none">
+			<h1>You <span id="announcer"></span></h1>
+			<button class="button" id="reset-button">Try again</button>
+		</div>
 	</body>
 </html>
