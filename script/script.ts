@@ -7,8 +7,10 @@ let round = 0;
 let gameOptionsDisabled = false;
 const availableGameOptions: GameOptions[] = ['rock', 'paper', 'scissors'];
 
+const gameExplanationContainer =
+	document.getElementsByClassName('game-explanation')[0];
 //buttons
-const buttonsWrapper = document.getElementById('buttons-wrapper');
+const buttonsWrapper = document.getElementById('main-buttons-wrapper');
 const startRoundButton = document.getElementById('game-button');
 const resetButton = document.getElementById('reset-button');
 // results
@@ -22,14 +24,39 @@ const announcer = document.getElementById('announcer');
 // clickable options
 const optionsWrapper = document.getElementById('options-wrapper');
 const clickableGameOptions = document.getElementsByClassName('option');
+// options chosen
+const playerSelectionDisplayer = document
+	.getElementById('player-last-pick')
+	.getElementsByTagName('span')[0];
+const computerSelectionDisplayer = document
+	.getElementById('computer-last-pick')
+	.getElementsByTagName('span')[0];
 
-// disables the clickable options
-const toggleDisabled = () => {
-	for (let i = 0; i < clickableGameOptions.length; i++) {
-		const gameOption = clickableGameOptions[i];
-		gameOption.toggleAttribute('disabled');
-	}
+const rockIconClass = 'far fa-hand-rock';
+const paperIconClass = 'far fa-hand-paper';
+const scissorsIconClass = 'far fa-hand-scissors';
+
+// Hides the clickable options so the player can't change their option
+const toggleHideGameOptions = (hide?: boolean) => {
+	optionsWrapper.style.display = hide ? 'none' : 'block';
 	gameOptionsDisabled = !gameOptionsDisabled;
+};
+
+const showLastPlayed = (
+	selection: GameOptions,
+	elementToModify: HTMLElement
+) => {
+	switch (selection) {
+		case 'rock':
+			elementToModify.setAttribute('class', rockIconClass);
+			break;
+		case 'paper':
+			elementToModify.setAttribute('class', paperIconClass);
+			break;
+		case 'scissors':
+			elementToModify.setAttribute('class', scissorsIconClass);
+			break;
+	}
 };
 
 // this function takes the player's choice and determines who won the round
@@ -39,6 +66,8 @@ const determineRound = (playerSelection: GameOptions) => {
 	roundLastResults.style.display = 'block';
 	buttonsWrapper.classList.remove('hidden');
 	startRoundButton.removeAttribute('disabled');
+	showLastPlayed(playerSelection, playerSelectionDisplayer);
+	showLastPlayed(computerSelection, computerSelectionDisplayer);
 	if (playerSelection == computerSelection) {
 		roundLastResults.innerText = 'Tie!';
 	}
@@ -57,7 +86,7 @@ const determineRound = (playerSelection: GameOptions) => {
 		roundLastResults.innerText = 'Computer won!';
 	}
 	// disable game buttons so the player can't change their choice
-	toggleDisabled();
+	toggleHideGameOptions(true);
 	if (playerScore == 5 || computerScore == 5) {
 		startRoundButton.toggleAttribute('disabled');
 		announcerWrapper.style.display = 'block';
@@ -77,6 +106,8 @@ const resetGame = () => {
 	playerScoreDisplayer.textContent = `${playerScore}`;
 	computerScoreDisplayer.textContent = `${computerScore}`;
 	announcerWrapper.style.display = 'none';
+	playerSelectionDisplayer.removeAttribute('class');
+	computerSelectionDisplayer.removeAttribute('class');
 	playRound();
 };
 
@@ -84,6 +115,7 @@ const playRound = () => {
 	if (round == 0) {
 		scoresWrapper.style.display = 'block';
 		optionsWrapper.style.display = 'block';
+		(<HTMLElement>gameExplanationContainer).style.display = 'none';
 		startRoundButton.innerText = 'Next round';
 	}
 	round++;
@@ -92,7 +124,7 @@ const playRound = () => {
 	roundLastResults.style.display = 'none';
 	// if the buttons are disable enable them
 	if (gameOptionsDisabled) {
-		toggleDisabled();
+		toggleHideGameOptions();
 	}
 };
 
